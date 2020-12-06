@@ -1,3 +1,5 @@
+<%@page import="com.beans.users"%>
+<%@page import="com.daos.users_queryDao"%>
 <%@page import="java.util.Scanner"%>
 <%@page import="org.apache.http.HttpResponse;"%>
 <%@page import="org.apache.http.client.methods.HttpPost;"%>
@@ -23,13 +25,22 @@
         </style>
     </head>
     <body>
+        <%
+            int id;
+            if (session.getAttribute("user") == null) {
+                response.sendRedirect("index.jsp");
+                return;
+            } else {
+                users user = (users) session.getAttribute("user");
+                id = user.getUser_id();
+            }
+        %>
         <jsp:useBean class="com.beans.users" id="usee" scope="session"></jsp:useBean>
         <jsp:setProperty name="user" property="*"></jsp:setProperty>
             <br><br>
             <div class="row justify-content-center">
-                <div class="col-md-6 center">  <h3 class="text-center text-info">Welcome ${user.user_name} </h3></div></div><br><br><br>
+                <div class="col-md-6 center">  <h3 class="text-center text-info">Welcome ${user.user_name} </h3></div></div><br>
         <div class="container">
-            <br/>
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10">
                     <form class="card card-sm" action="./URLFetch_Controller"method="Get">
@@ -51,10 +62,30 @@
 
                     </form>
                     <% if (request.getAttribute("server_string") != null) {%> 
-
-                    <textarea id="w3review" name="w3review" rows="4" cols="50">
-                        <%out.println(request.getAttribute("server_string"));%>
-                    </textarea>
+                    <div class="row justify-content-center">
+                        <div class="col-12 col-md-12">
+                            <form class="card card-sm">
+                                <div class="card-header">
+                                    <label  class="form-control form-control-lg form-control-borderless text-center "><%out.println(request.getAttribute("url"));%></label>
+                                </div>
+                                <div class="card-body row no-gutters align-items-center"> 
+                                    <div class="col">
+                                        <textarea  class="form-control form-control-lg form-control-borderless"   rows="8" cols="60">
+                                            <%out.println(request.getAttribute("server_string"));%>
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </form>
+                            <%users_queryDao uqd = new users_queryDao();
+                                String url = (String) request.getAttribute("url");
+                                String content = (String) request.getAttribute("server_string");
+                                if (uqd.add(url, content, id)) 
+                                        out.println("<script>alert('URL and content saved');</script>");
+                                else
+                                     out.println("<script>alert('URL and content not saved');</script>"); 
+                            %>            
+                        </div>
+                    </div>
                     <%}%>
                 </div>
 
