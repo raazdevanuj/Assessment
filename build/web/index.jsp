@@ -1,3 +1,4 @@
+<%@page import="org.postgresql.util.Base64"%>
 <%@page import="com.beans.users"%>
 <%@page import="com.daos.userDao"%>
 <html>
@@ -53,10 +54,12 @@ body {
                     <%
                      if (request.getParameter("submit") != null) {
                       String user_name = request.getParameter("username");
-                    String password = request.getParameter("password");
+                    String temp= request.getParameter("password");
+                     String password = Base64.encodeBytes(temp.getBytes());
                     userDao ud=new userDao();
                     users user=ud.valid_details(user_name, password);
-                   
+                    //  System.out.println(password);
+                       
                         if (user!= null) {
                             session.setAttribute("user", user);
                              out.println("<script>alert('login successfully!');</script>");

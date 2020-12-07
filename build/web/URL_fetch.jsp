@@ -1,10 +1,10 @@
 <%@page import="com.beans.users"%>
 <%@page import="com.daos.users_queryDao"%>
-<%@page import="java.util.Scanner"%>
-<%@page import="org.apache.http.HttpResponse;"%>
+<%--<%@page import="java.util.Scanner"%>--%>
+<%--<%@page import="org.apache.http.HttpResponse;"%>
 <%@page import="org.apache.http.client.methods.HttpPost;"%>
 <%@page import="org.apache.http.impl.client.CloseableHttpClient"%>
-<%@page import="org.apache.http.impl.client.HttpClients"%>
+<%@page import="org.apache.http.impl.client.HttpClients"%>--%>
 <html>
     <head>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
