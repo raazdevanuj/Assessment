@@ -34,12 +34,14 @@ public class ConnectionPool {
          if(connections==null){
              try
              {
-                 String userName="root";
+                // String userName="root";
+                 String userName="postgres";
                  String password="root";
-                 String url = "jdbc:mysql://localhost:3306/assessment";
+                 //String url = "jdbc:mysql://localhost:3306/assessment";
+                String url="jdbc:postgresql://localhost:5432/users";
 
-                Class.forName("com.mysql.jdbc.Driver");
-
+                //Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("org.postgresql.Driver");
                 connections = new Vector();
                 int count = 0;
                 while (count < MAX_CONNECTIONS) {
