@@ -1,4 +1,5 @@
-<%@page import="org.postgresql.util.Base64"%>
+<%@page import="java.math.BigInteger"%>
+<%@page import="java.security.MessageDigest"%>
 <%@page import="com.beans.users"%>
 <%@page import="com.daos.userDao"%>
 <html>
@@ -55,9 +56,16 @@ body {
                      if (request.getParameter("submit") != null) {
                       String user_name = request.getParameter("username");
                     String temp= request.getParameter("password");
-                     String password = Base64.encodeBytes(temp.getBytes());
-                    userDao ud=new userDao();
-                    users user=ud.valid_details(user_name, password);
+                    MessageDigest md = MessageDigest.getInstance("MD5"); 
+			byte[] messageDigest = md.digest(temp.getBytes()); 
+			BigInteger no = new BigInteger(1, messageDigest); 
+			String hashtext = no.toString(16); 
+			while (hashtext.length() < 32) { 
+				hashtext = "0" + hashtext; 
+			} 
+			
+                     userDao ud=new userDao();
+                    users user=ud.valid_details(user_name, hashtext);
                     //  System.out.println(password);
                        
                         if (user!= null) {

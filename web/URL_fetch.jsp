@@ -39,7 +39,15 @@
         <jsp:setProperty name="user" property="*"></jsp:setProperty>
             <br><br>
             <div class="row justify-content-center">
-                <div class="col-md-6 center">  <h3 class="text-center text-info">Welcome ${user.user_name} </h3></div></div><br>
+            <div class="col-md-6 center"> 
+                <h3 class="text-center text-info">Welcome ${user.user_name} </h3>
+            </div>
+            <div class="col-md-10"></div> 
+            <div class="col-md-2">
+                <a class="btn btn-primary col-md-6 center" href="signout.jsp">Logout</a>
+            </div>
+            </div>
+        <br>
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-12 col-md-10">
@@ -79,10 +87,11 @@
                             <%users_queryDao uqd = new users_queryDao();
                                 String url = (String) request.getAttribute("url");
                                 String content = (String) request.getAttribute("server_string");
-                                if (uqd.add(url, content, id)) 
-                                        out.println("<script>alert('URL and content saved');</script>");
-                                else
-                                     out.println("<script>alert('URL and content not saved');</script>"); 
+                                if (uqd.add(url, content, id)) {
+                                    out.println("<script>alert('URL and content saved');</script>");
+                                } else {
+                                    out.println("<script>alert('URL and content not saved');</script>");
+                                }
                             %>            
                         </div>
                     </div>
