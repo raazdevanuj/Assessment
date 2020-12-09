@@ -1,25 +1,50 @@
 package com.controllers;
 
-import com.beans.users;
-import com.daos.users_queryDao;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Scanner;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.charset.Charset;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
-//import org.apache.http.HttpEntity;
-//import org.apache.http.HttpResponse;
-//import org.apache.http.client.methods.HttpGet;
-//import org.apache.http.impl.client.CloseableHttpClient;
-//import org.apache.http.impl.client.HttpClients;
-//import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 public class URLFetch_Controller extends HttpServlet {
+
+    public static String fetchDataURL(String myURL) {
+
+        StringBuilder sb = new StringBuilder();
+        URLConnection urlConn = null;
+        InputStreamReader in = null;
+        try {
+            URL url = new URL(myURL);
+            urlConn = url.openConnection();
+            if (urlConn != null) {
+                urlConn.setReadTimeout(60 * 1000);
+            }
+            if (urlConn != null && urlConn.getInputStream() != null) {
+                in = new InputStreamReader(urlConn.getInputStream(),
+                        Charset.defaultCharset());
+                BufferedReader bufferedReader = new BufferedReader(in);
+                if (bufferedReader != null) {
+                    int cp;
+                    while ((cp = bufferedReader.read()) != -1) {
+                        sb.append((char) cp);
+                    }
+                    bufferedReader.close();
+                }
+            }
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sb.toString();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,21 +53,12 @@ public class URLFetch_Controller extends HttpServlet {
         response.setContentType("text/html");
         String url = request.getParameter("URL");
         // System.out.println(url);
-
-        //CloseableHttpClient httpclient = HttpClients.createDefault();
-
-        //HttpGet httpget = new HttpGet(url);
-        String content = null;
+        String content = "";
         try {
-            Document doc = Jsoup.connect(url).get();
-            content = doc.title();
-            content += doc.html();
-//                content+=doc.body();
-//            HttpResponse httpresponse = httpclient.execute(httpget);
-//            HttpEntity entity = httpresponse.getEntity();
-//            content = EntityUtils.toString(entity);
+            String res = fetchDataURL(url);
+            content = Jsoup.parse(res).text();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         if (content == null) {
@@ -50,6 +66,7 @@ public class URLFetch_Controller extends HttpServlet {
             out.println("<script>window.location='URL_fetch.jsp'</script>");
         } else {
             request.setAttribute("url", url);
+            //  System.out.println(content);
             request.setAttribute("server_string", content);
             request.getRequestDispatcher("URL_fetch.jsp").forward(request, response);
 

@@ -39,14 +39,14 @@
         <jsp:setProperty name="user" property="*"></jsp:setProperty>
             <br><br>
             <div class="row justify-content-center">
-            <div class="col-md-6 center"> 
-                <h3 class="text-center text-info">Welcome ${user.user_name} </h3>
+                <div class="col-md-6 center"> 
+                    <h3 class="text-center text-info">Welcome ${user.user_name} </h3>
             </div>
             <div class="col-md-10"></div> 
             <div class="col-md-2">
                 <a class="btn btn-primary col-md-6 center" href="signout.jsp">Logout</a>
             </div>
-            </div>
+        </div>
         <br>
         <div class="container">
             <div class="row justify-content-center">
@@ -78,8 +78,8 @@
                                 </div>
                                 <div class="card-body row no-gutters align-items-center"> 
                                     <div class="col">
-                                        <textarea  class="form-control form-control-lg form-control-borderless"   rows="8" cols="60">
-                                            <%out.println(request.getAttribute("server_string"));%>
+                                        <textarea  class="form-control form-control-lg form-control-borderless"   rows="8">
+                                            ${server_string}
                                         </textarea>
                                     </div>
                                 </div>
