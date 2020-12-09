@@ -1,0 +1,13 @@
+ 
+ url of project: https://assessment-rahul.herokuapp.com/
+ 1.first page there is login page where we can login
+ two user details
+		username -rahul  password -rahul
+		username- pankaj password -root
+ 2. After the successfully login second page 
+     where we can paste url into input box and click on submit button
+ 3. It will direct into third page where content of second page 
+     like( input box and submit) and also show url and content of url
+	 that you had search on second page.
+	 there is also signout button of logout.
+		
